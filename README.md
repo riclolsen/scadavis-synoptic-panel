@@ -56,6 +56,10 @@ needs read access to the directory.
 
 # Changelog
 
+## 1.0.1
+
+* Revised version. Watermark removed.
+
 ## 1.0.0
 
 * Initial version.

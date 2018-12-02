@@ -11,8 +11,8 @@
     },
     "keywords": ["scada", "synoptic", "panel"],
     "logos": {
-      "small": "src/img/scadavis-small.png",
-      "large": "src/img/scadavis-large.png"
+      "small": "img/scadavis-small.png",
+      "large": "img/scadavis-large.png"
     },
     "links": [
       {"name": "Project site", "url": "https://github.com/ricardolo/scadavis-synoptic-panel"},
@@ -20,14 +20,13 @@
       {"name": "GPL License", "url": ""}
     ],
     "screenshots": [
-      {"name": "Donut!", "path": "src/img/piechart-donut.png"},
-      {"name": "Legend on the graph", "path": "src/img/scadavis-power.png"},
-      {"name": "Legend to the right", "path": "src/img/scadavis-speedometer.png"},
-      {"name": "Legend underneath", "path": "src/img/scadavis-donuts-radar.png"},
-      {"name": "Piechart options", "path": "src/img/scadavis-options.png"}
+      {"name": "Legend on the graph", "path": "img/scadavis-power.png"},
+      {"name": "Legend to the right", "path": "img/scadavis-speedometer.png"},
+      {"name": "Legend underneath", "path": "img/scadavis-donuts-radar.png"},
+      {"name": "Piechart options", "path": "img/scadavis-options.png"}
     ],
-    "version": "1.0.0",
-    "updated": "2018-09-20"
+    "version": "1.0.1",
+    "updated": "2018-12-02"
   },
 
   "dependencies": {

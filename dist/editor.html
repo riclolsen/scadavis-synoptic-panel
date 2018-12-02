@@ -13,12 +13,12 @@
       <input type="number" class="gf-form-input width-9" ng-model="ctrl.panel.zoomLevel" ng-change="editor.render()" ng-model-onblur placeholder="1.0">
     </div>
     <div class="gf-form">
-      <span class="gf-form-label width-8">Unit</span>
+      <span class="gf-form-label width-11">Unit</span>
       <div class="gf-form-dropdown-typeahead width-10" ng-model="ctrl.panel.format" dropdown-typeahead="ctrl.unitFormats" dropdown-typeahead-on-select="ctrl.setUnitFormat($subItem)">
       </div>
     </div>
     <div class="gf-form">
-      <span class="gf-form-label width-8">Value</span>
+      <span class="gf-form-label width-11">Value</span>
       <div class="gf-form-select-wrapper max-width-10">
         <select class="gf-form-input" ng-model="ctrl.panel.valueName" ng-options="v for v in ['min','max','avg', 'current', 'total']"
           ng-change="ctrl.render()"></select>

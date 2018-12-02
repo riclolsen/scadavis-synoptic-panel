@@ -174,6 +174,7 @@ System.register(['app/plugins/sdk', 'lodash', 'app/core/utils/kbn', 'app/core/ti
                 });
                 svelem.svgraph.enableMouse(false, false);
                 svelem.svgraph.zoomTo(this.panel.zoomLevel);
+                svelem.svgraph.hideWatermark();
                 this.panel._lastZoomLevel = this.panel.zoomLevel;
               }
 

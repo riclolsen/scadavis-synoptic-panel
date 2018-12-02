@@ -99,6 +99,7 @@ export class SCADAvisCtrl extends MetricsPanelCtrl {
                                       });
         svelem.svgraph.enableMouse(false, false);
         svelem.svgraph.zoomTo(this.panel.zoomLevel);
+        svelem.svgraph.hideWatermark();
         this.panel._lastZoomLevel = this.panel.zoomLevel;
         }
 
