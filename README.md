@@ -6,9 +6,21 @@ The SCADAvis.io online service provides an incredibly powerful SVG Editor that c
 
 Learn how to obtain and use the SCADAvis.io editor [here](https://scadavis.io).
 
-In the SVG file variables, should be marked with tags that match metrics or aliases in Grafana data queries.
+In the SVG file, graphical objects should be marked with tags that match metrics or aliases names from Grafana data queries.
 
-## Screenshots
+Step-by-step example: 
+* Create a new SVG file using the SCADAvis.io Synoptic Editor. 
+* Put a text object the top left position. 
+* Change the text to %f (use printf convention to format numbers).
+* Select the text object and click the right mouse button, choose "Object Properties". 
+* Go to the "Get" tab and type in the "Tag" field some tag name such as "TAG1". 
+* Save the SVG file (do not change the default format). 
+* Upload the file to some server to make it available online (you can use a Github raw url such as "https://raw.githubusercontent.com/riclolsen/displayfiles/master/helloworld.svg").
+* Edit the Grafana panel with the SCADAvis.io plugin. 
+* In the "Options" tab, field "SVG File URL", enter the URL for your SVG file. 
+* In the "Metrics" choose a Data Source and use the tag name that is inside the SVG file (e.g. "TAG1") as the metric name. Example query: "SELECT <value column> as value, "TAG1" as metric FROM ...".
+* Save the panel and it will display the value obtained from the query in the panel as a float value.
+* There are many animations possible such as filll/stroke color, position, opacity, etc. (see "Learn" section on https://scadavis.io site).
 
 ![Power](https://raw.githubusercontent.com/riclolsen/displayfiles/master/scadavis-power.png?raw=true)
 ![Options](https://raw.githubusercontent.com/riclolsen/displayfiles/master/scadavis-options.png?raw=true)
@@ -55,6 +67,10 @@ if you want to place the plugin in a directory outside the standard plugins dire
 needs read access to the directory.
 
 # Changelog
+
+## 1.0.2
+
+* Better README.md.
 
 ## 1.0.1
 
