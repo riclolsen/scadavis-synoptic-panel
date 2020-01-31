@@ -89,11 +89,20 @@ export class SCADAvisCtrl extends MetricsPanelCtrl {
     this.series = dataList.map(this.seriesHandler.bind(this));
     this.data = this.parseSeries(this.series);
     this.render(this.data);
+	
+	let svgurl = this.panel.svgurl
+	try {
+			svgurl = this.templateSrv.replace(this.panel.svgurl, this.panel.scopedVars, 'html');
+		} catch (e) {
+			console.log('panel error: ', e);
+		}
+			
+			
     if ( typeof this.$panelContainer != 'undefined' ) {
       var svelem = this.$panelContainer[0].querySelector('.scadavis-panel__chart');
 
       if (svelem && typeof svelem.svgraph === "undefined") {      
-        svelem.svgraph = new scadavis({ svgurl: this.panel.svgurl, 
+        svelem.svgraph = new scadavis({ svgurl: svgurl, 
                                         container: svelem, 
                                         iframeparams: 'frameborder="0" width="'+ svelem.clientWidth +'" height="'+ svelem.clientHeight +'"'
                                       });
@@ -113,8 +122,9 @@ export class SCADAvisCtrl extends MetricsPanelCtrl {
         //   svelem.svgraph.loadURL(this.panel.svgurl);
         //   }
         //else
-        if ( svelem.svgraph.svgurl != this.panel.svgurl ) {
-           svelem.svgraph.loadURL(this.panel.svgurl);
+		
+        if ( svelem.svgraph.svgurl != svgurl ) {
+           svelem.svgraph.loadURL(svgurl);
            }        
         svelem.svgraph.enableTools(this.panel.showZoomPan, this.panel.showZoomPan);
         for (var i=0; i<this.data.length; i++)
