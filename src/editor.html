@@ -5,13 +5,15 @@
       on-change="ctrl.refresh()"></gf-form-switch>
     <div class="gf-form">
       <span class="gf-form-label width-11">SVG File URL</span>
-      <input type="text" class="gf-form-input width-30" ng-model="ctrl.panel.svgurl" ng-change="editor.render()" ng-model-onblur
+      <input type="text" class="gf-form-input width-30" ng-model="ctrl.panel.svgurl" ng-change="editor.render();ctrl.refresh()" ng-model-onblur
         placeholder="URL">
     </div>
     <div class="gf-form">
       <span class="gf-form-label width-11">Zoom Level</span>
-      <input type="number" class="gf-form-input width-9" ng-model="ctrl.panel.zoomLevel" ng-change="editor.render()" ng-model-onblur placeholder="1.0">
+      <input type="number" class="gf-form-input width-9" ng-model="ctrl.panel.zoomLevel" ng-change="editor.render();ctrl.refresh()" ng-model-onblur placeholder="1.0">
     </div>
+    <gf-form-switch class="gf-form" label="Auto Resize" label-class="width-11" checked="ctrl.panel.autoResize" 
+      on-change="ctrl.refresh()"></gf-form-switch>
     <div class="gf-form">
       <span class="gf-form-label width-11">Unit</span>
       <div class="gf-form-dropdown-typeahead width-10" ng-model="ctrl.panel.format" dropdown-typeahead="ctrl.unitFormats" dropdown-typeahead-on-select="ctrl.setUnitFormat($subItem)">

@@ -16,6 +16,7 @@ export class SCADAvisCtrl extends MetricsPanelCtrl {
     var panelDefaults = {
       svgurl: 'https://raw.githubusercontent.com/riclolsen/displayfiles/master/helloworld.svg',
       showZoomPan: false,
+      autoResize: false,
       zoomLevel: 1.0,
       legend: {
         show: true, // disable/enable legend
@@ -72,6 +73,11 @@ export class SCADAvisCtrl extends MetricsPanelCtrl {
 
   onRender() {
     this.data = this.parseSeries(this.series);
+    var svelem = this.$panelContainer[0].querySelector('.scadavis-panel__chart');
+    if (svelem && typeof svelem.svgraph !== "undefined" && this.panel.autoResize) {
+      svelem.svgraph.zoomToOriginal();
+      svelem.svgraph.zoomTo(this.panel.zoomLevel * ((svelem.clientWidth < svelem.clientHeight)?svelem.clientWidth/250 : svelem.clientHeight/250) );
+      }     
   }
 
   parseSeries(series) {
@@ -104,7 +110,7 @@ export class SCADAvisCtrl extends MetricsPanelCtrl {
       if (svelem && typeof svelem.svgraph === "undefined") {      
         svelem.svgraph = new scadavis({ svgurl: svgurl, 
                                         container: svelem, 
-                                        iframeparams: 'frameborder="0" width="'+ svelem.clientWidth +'" height="'+ svelem.clientHeight +'"'
+                                        iframeparams: 'frameborder="0" width="100%" height="100%" style="overflow:hidden;height:100%;width:100%;" '
                                       });
         svelem.svgraph.enableMouse(false, false);
         svelem.svgraph.zoomTo(this.panel.zoomLevel);
@@ -115,20 +121,22 @@ export class SCADAvisCtrl extends MetricsPanelCtrl {
       if (svelem && typeof svelem.svgraph !== "undefined") {
         if ( this.panel._lastZoomLevel != this.panel.zoomLevel ) {  
           svelem.svgraph.zoomToOriginal();
-          svelem.svgraph.zoomTo(this.panel.zoomLevel);
-          this.panel._lastZoomLevel = this.panel.zoomLevel;
+          if (this.panel.autoResize)
+            svelem.svgraph.zoomTo(this.panel.zoomLevel * ( (svelem.clientWidth < svelem.clientHeight)?svelem.clientWidth/250: svelem.clientHeight/250) );
+          else
+            svelem.svgraph.zoomTo(this.panel.zoomLevel);
+          this.panel._lastZoomLevel = this.panel.zoomLevel;          
           }
-        //if (svelem.svgraph.getComponentState() === 0) {
-        //   svelem.svgraph.loadURL(this.panel.svgurl);
-        //   }
-        //else
 		
         if ( svelem.svgraph.svgurl != svgurl ) {
            svelem.svgraph.loadURL(svgurl);
            }        
         svelem.svgraph.enableTools(this.panel.showZoomPan, this.panel.showZoomPan);
-        for (var i=0; i<this.data.length; i++)
-          svelem.svgraph.setValue(this.data[i].label, this.data[i].data); 
+        for (var i=0; i<this.data.length; i++) {
+          svelem.svgraph.storeValue(this.data[i].label, this.data[i].data, 0, 0, this.data[i].label); 
+          svelem.svgraph.storeValue("@"+(i+1), this.data[i].data, 0, 0, this.data[i].label);
+          }
+        svelem.svgraph.updateValues();
       }
 
     }

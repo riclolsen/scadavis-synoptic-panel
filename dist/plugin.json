@@ -25,8 +25,8 @@
       {"name": "Legend underneath", "path": "img/scadavis-donuts-radar.png"},
       {"name": "Piechart options", "path": "img/scadavis-options.png"}
     ],
-    "version": "1.0.2",
-    "updated": "2018-12-12"
+    "version": "1.0.3",
+    "updated": "2020-1-31"
   },
 
   "dependencies": {

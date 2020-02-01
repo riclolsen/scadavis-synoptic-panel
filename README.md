@@ -18,6 +18,7 @@ Step-by-step example:
 * Upload the file to some server to make it available online (you can use a Github raw url such as "https://raw.githubusercontent.com/riclolsen/displayfiles/master/helloworld.svg").
 * Edit the Grafana panel with the SCADAvis.io plugin. 
 * In the "Options" tab, field "SVG File URL", enter the URL for your SVG file. 
+* To embed the SVG file in the panel, first convert the SVG contents to Base64 encoding (there are online encoders) and paste the results in the SVG File URL field.
 * In the "Metrics" choose a Data Source and use the tag name that is inside the SVG file (e.g. "TAG1") as the metric name. Example query: "SELECT <value column> as value, "TAG1" as metric FROM ...".
 * Save the panel and it will display the value obtained from the query in the panel as a float value.
 * There are many animations possible such as filll/stroke color, position, opacity, etc. (see "Learn" section on https://scadavis.io site).
@@ -67,6 +68,14 @@ if you want to place the plugin in a directory outside the standard plugins dire
 needs read access to the directory.
 
 # Changelog
+
+## 1.0.3
+
+* Added "Auto Resize" config option.
+* Supported Grafana Templating Variables.
+* More efficient data update and display rendering.
+* Generic tagging (@1, @2, @3, ...) compatible to the Power BI plugin.
+* Better responsiveness to configuration changes.
 
 ## 1.0.2
 
