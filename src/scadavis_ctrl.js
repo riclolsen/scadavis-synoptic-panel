@@ -18,6 +18,7 @@ export class SCADAvisCtrl extends MetricsPanelCtrl {
       showZoomPan: false,
       autoResize: false,
       zoomLevel: 1.0,
+      lastZoomLevel: -1,
       legend: {
         show: true, // disable/enable legend
         values: true
@@ -104,6 +105,7 @@ export class SCADAvisCtrl extends MetricsPanelCtrl {
               _this.panel.svgurl = reader.result;
               var svelem = _this.$panelContainer[0].querySelector('.scadavis-panel__chart');
               svelem.svgraph.loadURL(_this.panel.svgurl);
+              _this.panel.lastZoomLevel = -1;
            }
          }
       reader.readAsDataURL(file);
@@ -136,21 +138,22 @@ export class SCADAvisCtrl extends MetricsPanelCtrl {
         svelem.svgraph.enableMouse(false, false);
         svelem.svgraph.zoomTo(this.panel.zoomLevel);
         svelem.svgraph.hideWatermark();
-        this.panel._lastZoomLevel = this.panel.zoomLevel;
+        this.panel.lastZoomLevel = -1;
         }
 
       if (svelem && typeof svelem.svgraph !== "undefined") {
-        if ( this.panel._lastZoomLevel != this.panel.zoomLevel ) {  
+        if ( this.panel.lastZoomLevel != this.panel.zoomLevel ) {  
           svelem.svgraph.zoomToOriginal();
           if (this.panel.autoResize)
             svelem.svgraph.zoomTo(this.panel.zoomLevel * ( (svelem.clientWidth < svelem.clientHeight)?svelem.clientWidth/250: svelem.clientHeight/250) );
           else
             svelem.svgraph.zoomTo(this.panel.zoomLevel);
-          this.panel._lastZoomLevel = this.panel.zoomLevel;          
+          this.panel.lastZoomLevel = this.panel.zoomLevel;          
           }
 		
         if ( svelem.svgraph.svgurl != svgurl ) {
            svelem.svgraph.loadURL(svgurl);
+           this.panel.lastZoomLevel = -1;
            }        
         svelem.svgraph.enableTools(this.panel.showZoomPan, this.panel.showZoomPan);
         if ( typeof  this.panel.prevDataLength == "number" )
