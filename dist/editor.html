@@ -1,13 +1,19 @@
 <div class="editor-row">
   <div class="section gf-form-group">
     <h5 class="section-heading">General</h5>
-    <gf-form-switch class="gf-form" label="Show Zoom/Pan Tools" label-class="width-11" checked="ctrl.panel.showZoomPan" 
-      on-change="ctrl.refresh()"></gf-form-switch>
+     <div class="gf-form-button-row">
+        <button class="btn btn-primary" ng-click="ctrl.onLoadSVGFromFile()">
+          Load SVG from local file
+        </button>
+        <input type='file' id='fileInput' accept='.svg' value='' style='display:none;'>
+      </div>
     <div class="gf-form">
       <span class="gf-form-label width-11">SVG File URL</span>
       <input type="text" class="gf-form-input width-30" ng-model="ctrl.panel.svgurl" ng-change="editor.render();ctrl.refresh()" ng-model-onblur
         placeholder="URL">
     </div>
+    <gf-form-switch class="gf-form" label="Show Zoom/Pan Tools" label-class="width-11" checked="ctrl.panel.showZoomPan"
+      on-change="ctrl.refresh()"></gf-form-switch>
     <div class="gf-form">
       <span class="gf-form-label width-11">Zoom Level</span>
       <input type="number" class="gf-form-input width-9" ng-model="ctrl.panel.zoomLevel" ng-change="editor.render();ctrl.refresh()" ng-model-onblur placeholder="1.0">

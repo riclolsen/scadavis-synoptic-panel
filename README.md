@@ -69,6 +69,10 @@ needs read access to the directory.
 
 # Changelog
 
+## 1.0.4
+
+* Added "Load SVG from local file" config option.
+
 ## 1.0.3
 
 * Added "Auto Resize" config option.

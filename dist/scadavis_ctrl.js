@@ -72,10 +72,10 @@ System.register(['app/plugins/sdk', 'lodash', 'app/core/utils/kbn', 'app/core/ti
         function SCADAvisCtrl($scope, $injector, $rootScope) {
           _classCallCheck(this, SCADAvisCtrl);
 
-          var _this = _possibleConstructorReturn(this, (SCADAvisCtrl.__proto__ || Object.getPrototypeOf(SCADAvisCtrl)).call(this, $scope, $injector));
+          var _this2 = _possibleConstructorReturn(this, (SCADAvisCtrl.__proto__ || Object.getPrototypeOf(SCADAvisCtrl)).call(this, $scope, $injector));
 
-          _this.$rootScope = $rootScope;
-          _this.hiddenSeries = {};
+          _this2.$rootScope = $rootScope;
+          _this2.hiddenSeries = {};
 
           var panelDefaults = {
             svgurl: 'https://raw.githubusercontent.com/riclolsen/displayfiles/master/helloworld.svg',
@@ -87,6 +87,7 @@ System.register(['app/plugins/sdk', 'lodash', 'app/core/utils/kbn', 'app/core/ti
               values: true
             },
             links: [],
+            prevDataLength: 0,
             datasource: null,
             maxDataPoints: 3,
             interval: null,
@@ -102,17 +103,17 @@ System.register(['app/plugins/sdk', 'lodash', 'app/core/utils/kbn', 'app/core/ti
             fontSize: '80%'
           };
 
-          _.defaults(_this.panel, panelDefaults);
-          _.defaults(_this.panel.legend, panelDefaults.legend);
+          _.defaults(_this2.panel, panelDefaults);
+          _.defaults(_this2.panel.legend, panelDefaults.legend);
 
-          _this.events.on('render', _this.onRender.bind(_this));
-          _this.events.on('data-received', _this.onDataReceived.bind(_this));
-          _this.events.on('data-error', _this.onDataError.bind(_this));
-          _this.events.on('data-snapshot-load', _this.onDataReceived.bind(_this));
-          _this.events.on('init-edit-mode', _this.onInitEditMode.bind(_this));
+          _this2.events.on('render', _this2.onRender.bind(_this2));
+          _this2.events.on('data-received', _this2.onDataReceived.bind(_this2));
+          _this2.events.on('data-error', _this2.onDataError.bind(_this2));
+          _this2.events.on('data-snapshot-load', _this2.onDataReceived.bind(_this2));
+          _this2.events.on('init-edit-mode', _this2.onInitEditMode.bind(_this2));
 
-          _this.setLegendWidthForLegacyBrowser();
-          return _this;
+          _this2.setLegendWidthForLegacyBrowser();
+          return _this2;
         }
 
         _createClass(SCADAvisCtrl, [{
@@ -153,16 +154,37 @@ System.register(['app/plugins/sdk', 'lodash', 'app/core/utils/kbn', 'app/core/ti
         }, {
           key: 'parseSeries',
           value: function parseSeries(series) {
-            var _this2 = this;
+            var _this3 = this;
 
             return _.map(this.series, function (serie, i) {
               return {
                 label: serie.alias,
-                data: serie.stats[_this2.panel.valueName],
-                color: _this2.panel.aliasColors[serie.alias] || _this2.$rootScope.colors[i],
-                legendData: serie.stats[_this2.panel.valueName]
+                data: serie.stats[_this3.panel.valueName],
+                color: _this3.panel.aliasColors[serie.alias] || _this3.$rootScope.colors[i],
+                legendData: serie.stats[_this3.panel.valueName]
               };
             });
+          }
+        }, {
+          key: 'onLoadSVGFromFile',
+          value: function onLoadSVGFromFile() {
+            var _this = this;
+            var fileInput = document.getElementById("fileInput");
+            if (fileInput) {
+              fileInput.addEventListener('change', function (e) {
+                var file = fileInput["files"][0];
+                if (file.type == "image/svg+xml") {
+                  var reader = new FileReader();
+                  reader.onload = function (e) {
+                    _this.panel.svgurl = reader.result;
+                    var svelem = _this.$panelContainer[0].querySelector('.scadavis-panel__chart');
+                    svelem.svgraph.loadURL(_this.panel.svgurl);
+                  };
+                }
+                reader.readAsDataURL(file);
+              });
+            }
+            fileInput.click();
           }
         }, {
           key: 'onDataReceived',
@@ -203,6 +225,11 @@ System.register(['app/plugins/sdk', 'lodash', 'app/core/utils/kbn', 'app/core/ti
                   svelem.svgraph.loadURL(svgurl);
                 }
                 svelem.svgraph.enableTools(this.panel.showZoomPan, this.panel.showZoomPan);
+                if (typeof this.panel.prevDataLength == "number") if (this.data.length < this.panel.prevDataLength) {
+                  svelem.svgraph.resetData();
+                  svelem.svgraph.updateValues();
+                }
+                this.panel.prevDataLength = this.data.length;
                 for (var i = 0; i < this.data.length; i++) {
                   svelem.svgraph.storeValue(this.data[i].label, this.data[i].data, 0, 0, this.data[i].label);
                   svelem.svgraph.storeValue("@" + (i + 1), this.data[i].data, 0, 0, this.data[i].label);

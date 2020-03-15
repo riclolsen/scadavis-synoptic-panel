@@ -23,6 +23,7 @@ export class SCADAvisCtrl extends MetricsPanelCtrl {
         values: true
       },
       links: [],
+      prevDataLength: 0,
       datasource: null,
       maxDataPoints: 3,
       interval: null,
@@ -91,19 +92,39 @@ export class SCADAvisCtrl extends MetricsPanelCtrl {
     });
   }
 
+  onLoadSVGFromFile(){
+    var _this = this;
+    var fileInput = document.getElementById("fileInput");    
+    if (fileInput){
+       fileInput.addEventListener('change', function (e) {
+         var file = fileInput["files"][0];
+         if (file.type == "image/svg+xml") {
+           var reader = new FileReader();
+           reader.onload = function (e) {
+              _this.panel.svgurl = reader.result;
+              var svelem = _this.$panelContainer[0].querySelector('.scadavis-panel__chart');
+              svelem.svgraph.loadURL(_this.panel.svgurl);
+           }
+         }
+      reader.readAsDataURL(file);
+      })
+    }
+    fileInput.click();
+  }
+
   onDataReceived(dataList) {
     this.series = dataList.map(this.seriesHandler.bind(this));
     this.data = this.parseSeries(this.series);
     this.render(this.data);
 	
-	let svgurl = this.panel.svgurl
-	try {
-			svgurl = this.templateSrv.replace(this.panel.svgurl, this.panel.scopedVars, 'html');
-		} catch (e) {
-			console.log('panel error: ', e);
-		}
-			
-			
+    var svgurl = this.panel.svgurl
+    try {
+      svgurl = this.templateSrv.replace(this.panel.svgurl, this.panel.scopedVars, 'html');
+      }
+    catch (e) {
+      console.log('panel error: ', e);
+      }
+		
     if ( typeof this.$panelContainer != 'undefined' ) {
       var svelem = this.$panelContainer[0].querySelector('.scadavis-panel__chart');
 
@@ -132,15 +153,19 @@ export class SCADAvisCtrl extends MetricsPanelCtrl {
            svelem.svgraph.loadURL(svgurl);
            }        
         svelem.svgraph.enableTools(this.panel.showZoomPan, this.panel.showZoomPan);
+        if ( typeof  this.panel.prevDataLength == "number" )
+          if ( this.data.length < this.panel.prevDataLength ) {
+             svelem.svgraph.resetData();
+             svelem.svgraph.updateValues();
+          }
+        this.panel.prevDataLength = this.data.length;
         for (var i=0; i<this.data.length; i++) {
           svelem.svgraph.storeValue(this.data[i].label, this.data[i].data, 0, 0, this.data[i].label); 
           svelem.svgraph.storeValue("@"+(i+1), this.data[i].data, 0, 0, this.data[i].label);
           }
         svelem.svgraph.updateValues();
       }
-
     }
-
   }
 
   seriesHandler(seriesData) {
