@@ -101,7 +101,8 @@ System.register(['app/plugins/sdk', 'lodash', 'app/core/utils/kbn', 'app/core/ti
             format: 'short',
             valueName: 'current',
             strokeWidth: 1,
-            fontSize: '80%'
+            fontSize: '80%',
+            _container: null
           };
 
           _.defaults(_this2.panel, panelDefaults);
@@ -146,8 +147,8 @@ System.register(['app/plugins/sdk', 'lodash', 'app/core/utils/kbn', 'app/core/ti
           key: 'onRender',
           value: function onRender() {
             this.data = this.parseSeries(this.series);
-            var svelem = this.$panelContainer[0].querySelector('.scadavis-panel__chart');
-            if (svelem && typeof svelem.svgraph !== "undefined" && this.panel.autoResize) {
+            var svelem = this.panel._container.querySelector('.scadavis-panel__chart');
+            if (svelem && svelem.svgraph && this.panel.autoResize) {
               svelem.svgraph.zoomToOriginal();
               svelem.svgraph.zoomTo(this.panel.zoomLevel * (svelem.clientWidth < svelem.clientHeight ? svelem.clientWidth / 250 : svelem.clientHeight / 250));
             }
@@ -178,7 +179,7 @@ System.register(['app/plugins/sdk', 'lodash', 'app/core/utils/kbn', 'app/core/ti
                   var reader = new FileReader();
                   reader.onload = function (e) {
                     _this.panel.svgurl = reader.result;
-                    var svelem = _this.$panelContainer[0].querySelector('.scadavis-panel__chart');
+                    var svelem = _this.panel._container.querySelector('.scadavis-panel__chart');
                     svelem.svgraph.loadURL(_this.panel.svgurl);
                     _this.panel.lastZoomLevel = -1;
                   };
@@ -202,12 +203,12 @@ System.register(['app/plugins/sdk', 'lodash', 'app/core/utils/kbn', 'app/core/ti
               console.log('panel error: ', e);
             }
 
-            if (typeof this.$panelContainer != 'undefined') {
-              var svelem = this.$panelContainer[0].querySelector('.scadavis-panel__chart');
+            if (this.panel._container) {
+              var svelem = this.panel._container.querySelector('.scadavis-panel__chart');
 
-              if (svelem && typeof svelem.svgraph === "undefined") {
+              if (svelem && !svelem.svgraph) {
                 svelem.svgraph = new scadavis({ svgurl: svgurl,
-                  container: svelem,
+                  container: this.panel._container.querySelector('.scadavis-panel__chart'),
                   iframeparams: 'frameborder="0" width="100%" height="100%" style="overflow:hidden;height:100%;width:100%;" '
                 });
                 svelem.svgraph.enableMouse(false, false);
@@ -216,7 +217,7 @@ System.register(['app/plugins/sdk', 'lodash', 'app/core/utils/kbn', 'app/core/ti
                 this.panel.lastZoomLevel = -1;
               }
 
-              if (svelem && typeof svelem.svgraph !== "undefined") {
+              if (svelem.svgraph) {
                 if (this.panel.lastZoomLevel != this.panel.zoomLevel) {
                   svelem.svgraph.zoomToOriginal();
                   if (this.panel.autoResize) svelem.svgraph.zoomTo(this.panel.zoomLevel * (svelem.clientWidth < svelem.clientHeight ? svelem.clientWidth / 250 : svelem.clientHeight / 250));else svelem.svgraph.zoomTo(this.panel.zoomLevel);
@@ -307,7 +308,9 @@ System.register(['app/plugins/sdk', 'lodash', 'app/core/utils/kbn', 'app/core/ti
         }, {
           key: 'link',
           value: function link(scope, elem, attrs, ctrl) {
-            this.$panelContainer = elem.find('.panel-container');
+            var v = elem.find('.panel-height-helper');
+            if (v.length > 0) this.panel._container = v[0];else v = elem.find('.panel.container');
+            if (v.lenght > 0) this.panel._container = v[0];
             // rendering(scope, elem, attrs, ctrl);
           }
         }, {

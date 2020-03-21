@@ -23,6 +23,8 @@ Step-by-step example:
 * Save the panel and it will display the value obtained from the query in the panel as a float value.
 * There are many animations possible such as filll/stroke color, position, opacity, etc. (see "Learn" section on https://scadavis.io site).
 
+This plugin requires Internet connectivity to work properly!
+
 ![Power](https://raw.githubusercontent.com/riclolsen/displayfiles/master/scadavis-power.png?raw=true)
 ![Options](https://raw.githubusercontent.com/riclolsen/displayfiles/master/scadavis-options.png?raw=true)
 ![Speedometer](https://raw.githubusercontent.com/riclolsen/displayfiles/master/scadavis-speedometer.png?raw=true)
@@ -73,6 +75,7 @@ needs read access to the directory.
 
 * Added "Load SVG from local file" config option.
 * Better auto resize handling.
+* Compatible also with Grafana 6.7.
 
 ## 1.0.3
 

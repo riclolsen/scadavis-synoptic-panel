@@ -37,7 +37,8 @@ export class SCADAvisCtrl extends MetricsPanelCtrl {
       format: 'short',
       valueName: 'current',
       strokeWidth: 1,
-      fontSize: '80%'
+      fontSize: '80%',
+      _container: null
     };
 
     _.defaults(this.panel, panelDefaults);
@@ -75,10 +76,11 @@ export class SCADAvisCtrl extends MetricsPanelCtrl {
 
   onRender() {
     this.data = this.parseSeries(this.series);
-    var svelem = this.$panelContainer[0].querySelector('.scadavis-panel__chart');
-    if (svelem && typeof svelem.svgraph !== "undefined" && this.panel.autoResize) {
+    var svelem = this.panel._container.querySelector('.scadavis-panel__chart');
+    if (svelem && svelem.svgraph && this.panel.autoResize) {
       svelem.svgraph.zoomToOriginal();
-      svelem.svgraph.zoomTo(this.panel.zoomLevel * ((svelem.clientWidth < svelem.clientHeight)?svelem.clientWidth/250 : svelem.clientHeight/250) );
+      svelem.svgraph.zoomTo(this.panel.zoomLevel * 
+          ((svelem.clientWidth < svelem.clientHeight)?svelem.clientWidth/250 : svelem.clientHeight/250) );
       }     
   }
 
@@ -103,7 +105,7 @@ export class SCADAvisCtrl extends MetricsPanelCtrl {
            var reader = new FileReader();
            reader.onload = function (e) {
               _this.panel.svgurl = reader.result;
-              var svelem = _this.$panelContainer[0].querySelector('.scadavis-panel__chart');
+              var svelem = _this.panel._container.querySelector('.scadavis-panel__chart');
               svelem.svgraph.loadURL(_this.panel.svgurl);
               _this.panel.lastZoomLevel = -1;
            }
@@ -127,12 +129,12 @@ export class SCADAvisCtrl extends MetricsPanelCtrl {
       console.log('panel error: ', e);
       }
 		
-    if ( typeof this.$panelContainer != 'undefined' ) {
-      var svelem = this.$panelContainer[0].querySelector('.scadavis-panel__chart');
+    if ( this.panel._container ) {
+      var svelem = this.panel._container.querySelector('.scadavis-panel__chart');
 
-      if (svelem && typeof svelem.svgraph === "undefined") {      
+      if ( svelem && !svelem.svgraph ) {      
         svelem.svgraph = new scadavis({ svgurl: svgurl, 
-                                        container: svelem, 
+                                        container: this.panel._container.querySelector('.scadavis-panel__chart'), 
                                         iframeparams: 'frameborder="0" width="100%" height="100%" style="overflow:hidden;height:100%;width:100%;" '
                                       });
         svelem.svgraph.enableMouse(false, false);
@@ -141,7 +143,7 @@ export class SCADAvisCtrl extends MetricsPanelCtrl {
         this.panel.lastZoomLevel = -1;
         }
 
-      if (svelem && typeof svelem.svgraph !== "undefined") {
+      if (svelem.svgraph) {
         if ( this.panel.lastZoomLevel != this.panel.zoomLevel ) {  
           svelem.svgraph.zoomToOriginal();
           if (this.panel.autoResize)
@@ -155,11 +157,11 @@ export class SCADAvisCtrl extends MetricsPanelCtrl {
            svelem.svgraph.loadURL(svgurl);
            this.panel.lastZoomLevel = -1;
            }        
-        svelem.svgraph.enableTools(this.panel.showZoomPan, this.panel.showZoomPan);
+          svelem.svgraph.enableTools(this.panel.showZoomPan, this.panel.showZoomPan);
         if ( typeof  this.panel.prevDataLength == "number" )
           if ( this.data.length < this.panel.prevDataLength ) {
-             svelem.svgraph.resetData();
-             svelem.svgraph.updateValues();
+            svelem.svgraph.resetData();
+            svelem.svgraph.updateValues();
           }
         this.panel.prevDataLength = this.data.length;
         for (var i=0; i<this.data.length; i++) {
@@ -230,7 +232,12 @@ export class SCADAvisCtrl extends MetricsPanelCtrl {
   }
 
   link(scope, elem, attrs, ctrl) {
-    this.$panelContainer = elem.find('.panel-container');
+    var v = elem.find('.panel-height-helper');
+    if (v.length > 0)
+      this.panel._container = v[0];
+    else v = elem.find('.panel.container');
+    if (v.lenght > 0)
+      this.panel._container = v[0];
     // rendering(scope, elem, attrs, ctrl);
   }
 
