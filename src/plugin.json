@@ -1,36 +1,43 @@
 {
+  "$schema": "https://raw.githubusercontent.com/grafana/grafana/master/docs/sources/developers/plugins/plugin.schema.json",
   "type": "panel",
   "name": "SCADAvis Synoptic Panel",
   "id": "scadavis-synoptic-panel",
-
   "info": {
     "description": "SCADA-like synoptic panel for grafana",
     "author": {
-      "name": "SCADAvis.io",
+      "name": "Ricardo L. Olsen",
       "url": "https://scadavis.io"
     },
-    "keywords": ["scada", "synoptic", "panel"],
+    "keywords": [
+      "scada",
+      "svg"
+    ],
     "logos": {
       "small": "img/scadavis-small.png",
       "large": "img/scadavis-large.png"
     },
     "links": [
-      {"name": "Project site", "url": "https://github.com/ricardolo/scadavis-synoptic-panel"},
-      {"name": "Blog Post", "url": ""},
-      {"name": "GPL License", "url": ""}
+      {
+        "name": "Project site",
+        "url": "https://github.com/riclolsen/scadavis-synoptic-panel"
+      },
+      {
+        "name": "GPL License",
+        "url": "https://www.gnu.org/licenses/gpl-3.0.txt"
+      }
     ],
     "screenshots": [
-      {"name": "Legend on the graph", "path": "img/scadavis-power.png"},
-      {"name": "Legend to the right", "path": "img/scadavis-speedometer.png"},
-      {"name": "Legend underneath", "path": "img/scadavis-donuts-radar.png"},
-      {"name": "Piechart options", "path": "img/scadavis-options.png"}
+      {
+        "name": "Power",
+        "path": "img/scadavis-power.png"
+      }
     ],
-    "version": "1.0.4",
-    "updated": "2020-3-21"
+    "version": "2.0.0",
+    "updated": "%TODAY%"
   },
-
   "dependencies": {
-    "grafanaVersion": "4.6",
-    "plugins": [ ]
+    "grafanaDependency": ">=9.0.0",
+    "plugins": []
   }
 }

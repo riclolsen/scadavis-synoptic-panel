@@ -1,0 +1,17 @@
+version: '3.0'
+
+services:
+  grafana:
+    container_name: 'example'
+    build:
+      context: ./.config
+      args:
+        grafana_image: ${GRAFANA_IMAGE:-grafana}
+        grafana_version: ${GRAFANA_VERSION:-9.0.0}
+    environment:
+      - GF_SECURITY_ALLOW_EMBEDDING=true
+    ports:
+      - 3000:3000/tcp
+    volumes:
+      - ./dist:/var/lib/grafana/plugins/example
+      - ./provisioning:/etc/grafana/provisioning
