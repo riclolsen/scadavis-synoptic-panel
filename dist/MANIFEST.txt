@@ -9,7 +9,7 @@ Hash: SHA512
   "signedByOrgName": "scadavis",
   "plugin": "scadavis-synoptic-panel",
   "version": "2.0.0",
-  "time": 1701264593757,
+  "time": 1701268893088,
   "keyId": "7e4d0c6a708866e7",
   "files": {
     "CHANGELOG.md": "d4dd3947b08f8153ed779ab34d1c7d3fbb3096ed7f20d76fc357e8084974f01f",
@@ -48,10 +48,10 @@ Hash: SHA512
 Version: OpenPGP.js v4.10.10
 Comment: https://openpgpjs.org
 
-wrcEARMKAAYFAmVnPNEAIQkQfk0ManCIZucWIQTzOyW2kQdOhGNlcPN+TQxq
-cIhm5zebAgdzYL6gUbbw+/DZ2y8rVFEbrNOfzWbBf313AKOb4KQQGARM1cFq
-ookGqyBcckW7OY+PyjwSResiIGfJA84FqxvS8wIHXs0CrTZpWHK6EY5p3LCh
-94jEPvJzGIhnWSZlsVm7I1cc0mH9bWpkOao7ijj/v9domHpz/a/sqg/Gwpmi
-qnoQgp8=
-=zitP
+wrkEARMKAAYFAmVnTZ0AIQkQfk0ManCIZucWIQTzOyW2kQdOhGNlcPN+TQxq
+cIhm5w6wAgkB9AJau4IoLJoMqza1668Z5+WkQJu591aGCFpLSwxrEQ1RjRV+
+ZWsTCXwr1QVftcCbebuLOZ/VgZgYFEJvWWtPZnwCCQF5tcjUOcx5zVNjKLut
+iMWBzia0HF4amsDUJx4YImIyR8JOfXa4dEd2aTbInvb4rSPzU9uhgxkF7KRP
+e7aDZdSBig==
+=7wCQ
 -----END PGP SIGNATURE-----
