@@ -1,3 +1,7 @@
+scadavis-synoptic-panel
+scadavis-synoptic-panel.zip
+yarn.lock
+
 # Logs
 logs
 *.log
@@ -20,7 +24,6 @@ lib-cov
 coverage
 
 # Compiled binary addons (https://nodejs.org/api/addons.html)
-dist/
 artifacts/
 work/
 ci/
