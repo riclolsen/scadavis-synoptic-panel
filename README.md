@@ -19,7 +19,16 @@ Step-by-step example:
 * In the "Panel Options" tab, click the "Upload SVG file" button and choose your SVG file. 
 * In the "Query" panel choose a Data Source and use the tag name that is inside the SVG file (e.g. "TAG1") as the metric name. Example query: "SELECT <value column> as value, "TAG1" as metric FROM ...". Example data sources like "Random Walk" and "Live Measurements" will also work.
 * Save the panel and it will display the value obtained from the query in the panel as a float value.
-* There are many animations possible such as filll/stroke color, position, opacity, etc. (see "Learn" section on https://scadavis.io site).
+* There are many animations possible such as fill/stroke color, position, opacity, etc. (see "Learn" section on https://scadavis.io site).
+
+This plugin uses IFrames, so it may be necessary to enable the "allow_embedding" Grafana config option.
+
+    In grafana.ini:
+    [security]
+    allow_embedding = true
+    
+    Or with an environment variable:
+    GF_SECURITY_ALLOW_EMBEDDING=true
 
 ![Power](https://raw.githubusercontent.com/riclolsen/displayfiles/master/scadavis-power.png?raw=true)
 ![Options](https://raw.githubusercontent.com/riclolsen/displayfiles/master/scadavis-options.png?raw=true)
@@ -54,7 +63,7 @@ sudo service grafana-server restart
 If the plugin is cloned to a directory that is not the default plugins directory then you need to edit your grafana.ini config file (Default location is at /etc/grafana/grafana.ini) and add this:
 
 ```ini
-[plugin.scadavissynoptic]
+[plugin.scadavis-synoptic-panel]
 path = /home/your/clone/dir/scadavis-synoptic-panel
 ```
 
