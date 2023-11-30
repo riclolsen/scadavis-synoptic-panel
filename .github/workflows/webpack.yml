@@ -26,5 +26,6 @@ jobs:
       run: |
         npm install -g corepack
         corepack enable
+        corepack prepare yarn@stable --activate
         yarn install
         yarn build
