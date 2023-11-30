@@ -24,8 +24,8 @@ jobs:
 
     - name: Build
       run: |
+        export NODE_OPTIONS=--openssl-legacy-provider
         npm install -g corepack
         corepack enable
-        corepack prepare yarn@stable --activate
-        yarn install
+        yarn
         yarn build
