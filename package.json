@@ -68,7 +68,8 @@
     "@types/lodash": "^4.14.194",
     "react": "17.0.2",
     "react-dom": "^18.2.0",
-    "tslib": "2.5.0"
+    "tslib": "2.5.0",
+    "yarn": "^1.22.21"
   },
   "packageManager": "npm@9.3.1"
 }
