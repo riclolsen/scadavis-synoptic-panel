@@ -23,6 +23,10 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - name: Build
+      env:
+        PLUGIN_ID: ${{ vars.PLUGIN_ID }}
+        NODE_OPTIONS: ${{ vars.NODE_OPTIONS }}
+        GRAFANA_ACCESS_POLICY_TOKEN: ${{ secrets.GRAFANA_ACCESS_POLICY_TOKEN }}    
       run: |
         export NODE_OPTIONS=--openssl-legacy-provider
         npm install -g corepack
@@ -33,7 +37,4 @@ jobs:
         cp -r dist "${PLUGIN_ID}"
         zip -qr "${PLUGIN_ID}.zip" "${PLUGIN_ID}"
         npx @grafana/plugin-validator@latest -sourceCodeUri file://. "${PLUGIN_ID}.zip"
-      env:
-        PLUGIN_ID: ${{ vars.PLUGIN_ID }}
-        NODE_OPTIONS: ${{ vars.NODE_OPTIONS }}
-        GRAFANA_ACCESS_POLICY_TOKEN: ${{ secrets.GRAFANA_ACCESS_POLICY_TOKEN }}
+        sha1sum ${PLUGIN_ID}.zip
