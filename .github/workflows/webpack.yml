@@ -36,4 +36,4 @@ jobs:
       env:
         PLUGIN_ID: ${{ vars.PLUGIN_ID }}
         NODE_OPTIONS: ${{ vars.NODE_OPTIONS }}
-        GRAFANA_ACCESS_POLICY_TOKEN: ${{ vars.GRAFANA_ACCESS_POLICY_TOKEN }}
+        GRAFANA_ACCESS_POLICY_TOKEN: ${{ secrets.GRAFANA_ACCESS_POLICY_TOKEN }}
