@@ -29,3 +29,11 @@ jobs:
         corepack enable
         yarn
         yarn build
+        npx @grafana/sign-plugin@latest
+        cp -r dist "${PLUGIN_ID}"
+        zip -qr "${PLUGIN_ID}.zip" "${PLUGIN_ID}"
+        npx @grafana/plugin-validator@latest -sourceCodeUri file://. "${PLUGIN_ID}.zip"
+      env:
+        PLUGIN_ID: ${{ vars.PLUGIN_ID }}
+        NODE_OPTIONS: ${{ vars.NODE_OPTIONS }}
+        GRAFANA_ACCESS_POLICY_TOKEN: ${{ vars.GRAFANA_ACCESS_POLICY_TOKEN }}
