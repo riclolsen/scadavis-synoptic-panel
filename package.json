@@ -1,6 +1,6 @@
 {
   "name": "scadavis-synoptic-panel",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "SCADA-like synoptic panel from SCADAvis.io",
   "scripts": {
     "build": "webpack -c ./webpack.config.ts --env production",

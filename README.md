@@ -73,6 +73,10 @@ needs read access to the directory.
 
 # Changelog
 
+## Version 2.0.1
+
+* Fix errors related to crypto.randomUUID on http servers.
+
 ## Version 2.0.0
 
 * Plugin updated for React.

@@ -16,6 +16,15 @@ type svStateT = {
   lastOptions: ScadavisPanelOptions;
 };
 
+// replacement for crypt.randomUUID (that is only available for https context)
+// https://stackoverflow.com/a/2117523/2800218
+// LICENSE: https://creativecommons.org/licenses/by-sa/4.0/legalcode
+function _randomUUID(): string {
+  return '10000000-1000-4000-8000-100000000000'.replace(/[018]/g, (c: any) =>
+    (c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16)
+  );
+}
+
 // apply zoom, etc. to the SVG view
 function doAdjusts(options: ScadavisPanelOptions, svgraph: synopticapi.ScadaVis) {
   svgraph.zoomToOriginal();
@@ -147,7 +156,7 @@ export const ScadavisPanel: React.FC<PanelProps<ScadavisPanelOptions>> = ({
         options.svgUrl = lastOptions.svgUrl;
       }
     }
-    const svId = 'scadavis_' + crypto.randomUUID();
+    const svId = 'scadavis_' + _randomUUID();
     svState[objInd] = {
       svId: svId,
       svReactElem: React.createElement('div', { id: svId }),
