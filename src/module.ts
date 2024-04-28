@@ -2,7 +2,9 @@ import { PanelPlugin } from '@grafana/data';
 import { ScadavisPanel } from './ScadavisPanel';
 import { ScadavisPanelOptions } from './types';
 import { UploadSVG } from './SvgFilePicker';
-
+declare global {
+  let grafanaBootData: any;
+}
 export const plugin = new PanelPlugin<ScadavisPanelOptions>(ScadavisPanel).setPanelOptions(builder => {
   return builder
     .addTextInput({

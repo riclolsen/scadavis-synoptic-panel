@@ -33,7 +33,7 @@
         "path": "img/scadavis-power.png"
       }
     ],
-    "version": "2.0.1",
+    "version": "2.0.2",
     "updated": "%TODAY%"
   },
   "dependencies": {

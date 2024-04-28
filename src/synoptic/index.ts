@@ -769,14 +769,14 @@ export class ScadaVis {
     if (this.iframeparams.indexOf('scrolling') >= 0) {
       scrolling = '';
     }
-
+    const subUrl = grafanaBootData?.appSubUrl || grafanaBootData?.settings?.appSubUrl || '';
     iframehtm =
       '<iframe id="' +
       id +
       '" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox" ' +
       this.iframeparams +
       scrolling +
-      ` src="/public/plugins/scadavis-synoptic-panel/synoptic/synoptic.html"></iframe>`;
+      ` src="${subUrl}/public/plugins/scadavis-synoptic-panel/synoptic/synoptic.html"></iframe>`;
     if (this.container.innerHTML !== undefined) {
       (this.container as HTMLDivElement).appendChild(this.createElementFromHTML(iframehtm) as Node);
     } else {

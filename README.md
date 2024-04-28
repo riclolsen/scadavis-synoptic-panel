@@ -73,6 +73,10 @@ needs read access to the directory.
 
 # Changelog
 
+## Version 2.0.2
+
+* Fix file not found error when Grafana configured with "serve_from_sub_path = true".
+
 ## Version 2.0.1
 
 * Fix errors related to crypto.randomUUID on http servers.
